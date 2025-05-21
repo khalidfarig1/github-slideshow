@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title or startup.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ startup.name }}</h1>
+    <hr>
+    <p><strong>Description:</strong></p>
+    <p>{{ startup.description }}</p>
+    <hr>
+    <p><strong>Funding Goal:</strong> ${{ "%.2f"|format(startup.funding_goal) }}</p>
+    <p><strong>Entrepreneur:</strong> {{ startup.owner.username }} ({{ startup.owner.email }})</p>
+    <p><strong>Date Created:</strong> {{ startup.date_created.strftime('%Y-%m-%d %H:%M:%S') if startup.date_created else 'N/A' }}</p>
+    
+    {# Placeholder for funding rounds and investment options #}
+    <hr>
+    <h3>Funding Rounds</h3>
+    {% if startup.funding_rounds %}
+        <ul>
+        {% for round in startup.funding_rounds %}
+            <li>{{ round.round_name }} - Amount Raised: ${{ "%.2f"|format(round.amount_raised) }}</li>
+        {% else %}
+            <li>No funding rounds yet for this startup.</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No funding rounds information available.</p>
+    {% endif %}
+
+    {# Placeholder for investment form/button #}
+    {# {% if current_user.role == 'investor' %}
+        <a href="#" class="btn btn-success">Invest in this Startup</a>
+    {% endif %} #}
+</div>
+{% endblock %}

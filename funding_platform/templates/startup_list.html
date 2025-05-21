@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title or "Browse Startups" }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Startups</h1>
+    {% if startups %}
+        <ul class="list-group">
+            {% for startup in startups %}
+                <li class="list-group-item">
+                    <h4><a href="{{ url_for('startup_detail', startup_id=startup.id) }}">{{ startup.name }}</a></h4>
+                    <p><strong>Description:</strong> {{ startup.description[:150] }}{% if startup.description|length > 150 %}...{% endif %}</p>
+                    <p><strong>Funding Goal:</strong> ${{ "%.2f"|format(startup.funding_goal) }}</p>
+                    <p><small>Owned by: {{ startup.owner.username }}</small></p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No startups available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
